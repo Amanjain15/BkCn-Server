@@ -1,4 +1,5 @@
 from login.views import *
+from chain.views import *
 from django.http import JsonResponse, HttpResponseNotFound, HttpResponse
 import json, copy
 
@@ -14,7 +15,7 @@ NOT_FOUND = JsonResponse({
 
 
 def get_view(function_name, method):
-	return '%s_%s(request, *args, body = body, **kwargs)'%(function_name, method)
+	return '%s_%s(request, *args, **kwargs)'%(function_name, method)
 
 def VMS(*methods):
 	def _function_wrapper(function):
@@ -44,4 +45,12 @@ def access_token():
 
 @VMS('POST')
 def register():
+	pass
+
+@VMS('GET')
+def runt():
+	pass
+
+@VMS('GET')
+def product_owners():
 	pass

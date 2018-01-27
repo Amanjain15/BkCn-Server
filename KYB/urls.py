@@ -23,4 +23,6 @@ urlpatterns = [
     url(r'^login/', login),
     url(r'^access_token/', access_token),
     url(r'^register/', register),
+    url(r'^runt/', runt),
+    url(r'^product_owners/', product_owners),
 ]
