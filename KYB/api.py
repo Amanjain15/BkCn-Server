@@ -54,3 +54,7 @@ def runt():
 @VMS('GET')
 def product_owners():
 	pass
+	
+@VMS('POST')
+def create_transaction():
+	pass

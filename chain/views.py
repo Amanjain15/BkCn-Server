@@ -7,7 +7,7 @@ from django.http import JsonResponse
 from general.methods import JWT
 from transaction import Transaction
 import ecdsa, hashlib, socket, json, ast
-from login .mmodels import user_data, auth_user
+from login.models import user_data, auth_user
 @JWT
 def create_transaction_POST(request, user, response):
 	reciever_mobile = request.POST.get('reciever')

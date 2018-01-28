@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^register/', register),
     url(r'^runt/', runt),
     url(r'^product_owners/', product_owners),
+    url(r'^transact/', create_transaction),
 ]
