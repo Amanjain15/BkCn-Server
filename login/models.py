@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
-import hashlib
+import hashlib, uuid
 # Create your models here.
 class user_data(models.Model):
 	mobile = models.CharField(max_length = 120, blank = False, null = False, primary_key = True)
@@ -16,7 +16,7 @@ class user_data(models.Model):
 		user_auth_data,created = auth_user.objects.get_or_create(user = user)
 		if created:
 			user_auth_data.password = hashlib.sha256(str(uuid.uuid4())).hexdigest()
-			user_auth_data.public_key = hashlib.sha256(str(self.mobile).hexdigest())
+			user_auth_data.public_key = hashlib.sha256(str(self.mobile)).hexdigest()
 			user_auth_data.save()
 
 	def __unicode__(self):

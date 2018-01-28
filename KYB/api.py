@@ -51,10 +51,10 @@ def register():
 def runt():
 	pass
 
-@VMS('GET')
+@VMS('POST')
 def product_owners():
 	pass
-	
+
 @VMS('POST')
 def create_transaction():
 	pass

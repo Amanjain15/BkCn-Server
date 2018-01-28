@@ -27,7 +27,7 @@ def create_transaction_POST(request, user, response):
 
 	return JsonResponse(response)
 
-def product_owners_GET(request):
+def product_owners_POST(request):
 	response = {
 	'success':True,
 	'message':'msg'
