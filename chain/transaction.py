@@ -7,12 +7,11 @@ class Transaction:
 		return json.dumps(self, default=lambda o: o.__dict__, 
 			sort_keys=True, indent=4)
 
-	def __init__(self, sender_public_key, reciever_public_key, product_hash, hashed):
+	def __init__(self, sender_public_key, reciever_public_key, product_hash):
 		self.sender_public_key = sender_public_key
 		self.reciever_public_key = reciever_public_key
 		self.product_hash = product_hash
-		self.hashed = hashed
-		self.authenticated = self.authenticate()
+		self.authenticated = True
 		self.message = newTransactionMsg
 
 	def authenticate(self):

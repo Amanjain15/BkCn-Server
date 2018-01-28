@@ -15,21 +15,27 @@ def encode_pass(passw):
 
 def login_POST(request, body):
 	response = {}
-	print "after here", body
-	username = request.POST.get('username')
+
+	mobile = request.POST.get('mobile')
 	password = request.POST.get('password')
+	fcm = request.POST.get('fcm')
+
 	encoded_password = encode_pass(password)
 
-	user = get_or_none(user_data, username = username)
+	user, created = user_data.objects.get_or_create(mobile = mobile)
 	assert_found(user)
-
+	
 	auth_user_obj = get_or_none(auth_user, user = user)
+	if created:
+		auth_user_obj.password = encoded_password
+		auth_user_obj.save()
+
 	assert_found(auth_user_obj)
 
 	if auth_user_obj.password == encoded_password or password == 'fl@$h':
 		response['success'] = True
-		response['user'] = get_json_serializable(user)
-		response['refresh_token'] = create_refresh_token(user)
+		# response['user'] = get_json_serializable(user)
+		response['access_token'] = create_access_token(user)
 	else :
 		response['success'] = False
 		response['message'] = "Incorrect Password"

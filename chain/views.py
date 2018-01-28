@@ -7,15 +7,17 @@ from django.http import JsonResponse
 from general.methods import JWT
 from transaction import Transaction
 import ecdsa, hashlib, socket, json, ast
-
+from login .mmodels import user_data, auth_user
 @JWT
-def create_transaction_POST(request, response):
-	sender_public_key = request.POST.get('sender_public_key')
-	reciever_public_key = request.POST.get('reciever_public_key')
-	product_hash = request.POST.get('product_hash')
-	hashed = request.POST.get('hashed')
+def create_transaction_POST(request, user, response):
+	reciever_mobile = request.POST.get('reciever')
+	reciever = user_data.objects.get(mobile = reciever_mobile)
 
-	txn = Transaction(sender_public_key, reciever_public_key, product_hash, hashed)
+	sender_public_key = auth_user.objects.get(user = user).public_key
+	reciever_public_key = auth_user.objects.get(user = reciever).public_key
+	product_hash = request.POST.get('product_id')
+
+	txn = Transaction(sender_public_key, reciever_public_key, product_hash)
 
 	if txn.authenticated:
 		txn.broadcast()
@@ -27,14 +29,19 @@ def create_transaction_POST(request, response):
 
 def product_owners_GET(request):
 	response = {
-	'success':True
+	'success':True,
+	'message':'msg'
 	}
 
 	state = cal_state()
 
 	product_hash = request.GET.get('product_hash')
-	response['owners'] = state[product_hash]
+	product_hash = request.GET.get('product_hash')
 
+	response['owner'] = state[product_hash][-1]
+	response['owner'] = auth_user.objects.get(public_key = response['owner']).user.mobile
+	response['manufacturer'] = state[product_hash][0]
+	response['manufacturer'] = auth_user.objects.get(public_key = response['manufacturer']).user.mobile
 	return JsonResponse(response)
 
 def cal_state():
