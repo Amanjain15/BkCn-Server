@@ -13,7 +13,7 @@ def encode_pass(passw):
 	salted = SALT + passw
 	return hashlib.sha256(salted).hexdigest()
 
-def login_POST(request, body):
+def login_POST(request):
 	response = {}
 
 	mobile = request.POST.get('mobile')
